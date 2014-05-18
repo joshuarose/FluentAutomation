@@ -103,6 +103,21 @@ namespace FluentAutomation
                 container.Register<IWebDriver>((c, o) => browserDriver());
             };
         }
+
+        /// <summary>
+        /// Allow web driver to be passed into bootstrap
+        /// </summary>
+        /// <param name="driver"></param>
+        public static void Bootstrap(IWebDriver driver)
+        {
+            FluentSettings.Current.ContainerRegistration = (container) =>
+            {
+                container.Register<ICommandProvider, CommandProvider>();
+                container.Register<IAssertProvider, AssertProvider>();
+                container.Register<IFileStoreProvider, LocalFileStoreProvider>();
+                container.Register<IWebDriver>(driver);
+            };
+        }
         
         public static void Bootstrap(params Browser[] browsers)
         {
